@@ -61,3 +61,36 @@ CREATE TABLE Booking
     FOREIGN KEY (EventYear,EventMonth,EventDay,TourName) REFERENCES Event,
     FOREIGN KEY (ClientID) REFERENCES Client
 )
+
+
+
+INSERT INTO Tour (TourName,Description) VALUES
+('North','Tour of wineries and outlets of the Bedigo and Castlemaine region'),
+('South','Tour of wineries and outlets of Mornington Penisula'),
+('West','Tour of wineries and outlets of the Geelong and Otways region');
+
+INSERT INTO Client (ClientID,Surname,GivenName,Gender) VALUES
+(1,'Price','Taylor','M'),
+(2,'Gamble','Ellyse','F'),
+(3,'Tan','Tilly','F'),
+(4,'Blackwell','Kyle','M'),
+(5,'Johnson','Cave','M');
+
+INSERT INTO Event (TourName,EventMonth,EventDay,EventYear,EventFee) VALUES
+('North','Jan',9,2016,200),
+('North','Feb',13,2016,225),
+('South','Jan',9,2016,200),
+('South','Jan',16,2016,200),
+('West','Jan',29,2016,225);
+
+INSERT INTO Booking (ClientID,TourName,EventMonth,EventDay,EventYear,Payment,DateBooked) VALUES
+(1,'North','Jan',9,2016,200,'2015-12-10'),
+(2,'North','Feb',13,2016,225,'2015-12-16'),
+(3,'South','Jan',9,2016,200,'2015-08-17'),
+(4,'West','Jan',29,2016,225,'2015-03-15'),
+(5,'South','Jan',16,2016,200,'2015-05-12');
+
+
+
+
+SELECT * From Client;
