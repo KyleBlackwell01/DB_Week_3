@@ -97,14 +97,14 @@ INSERT INTO Client (ClientID,Surname,GivenName,Gender) VALUES
 INSERT INTO Event (TourName,EventMonth,EventDay,EventYear,EventFee) VALUES
 ('North','Jan',9,2016,200),
 ('North','Feb',13,2016,225),
-('South','Jan',9,2016,200),
+('South','Jan',3,2016,200),
 ('South','Jan',16,2016,200),
 ('West','Jan',29,2016,225);
 
 INSERT INTO Booking (ClientID,TourName,EventMonth,EventDay,EventYear,Payment,DateBooked) VALUES
 (1,'North','Jan',9,2016,200,'2015-12-10'),
 (2,'North','Feb',13,2016,225,'2015-12-16'),
-(3,'South','Jan',9,2016,200,'2015-08-17'),
+(3,'South','Jan',3,2016,200,'2015-08-17'),
 (4,'West','Jan',29,2016,225,'2015-03-15'),
 (5,'South','Jan',16,2016,200,'2015-05-12');
 
@@ -123,14 +123,16 @@ Select * From Client;
 
 
 -- Query #1
-Select c.GivenName, c.Surname, b.TourName, t.Description, b.EventYear, b.EventMonth, b.EventDay, e.EventFee, b.DateBooked, b.Payment
-FROM (((Booking b
+Select c.GivenName, c.Surname, t.TourName, t.Description, e.EventYear, e.EventMonth, e.EventDay, e.EventFee, b.DateBooked, b.Payment
+FROM (((Event e
+INNER JOIN Tour t
+ON e.TourName = t.TourName)
+INNER JOIN Booking b
+ON e.EventYear = b.EventYear
+AND e.EventMonth = b.EventMonth
+AND e.EventDay = b.EventDay)
 INNER JOIN Client c
 ON b.ClientID = c.ClientID)
-INNER JOIN Tour t
-ON b.TourName = t.TourName)
-INNER JOIN Event e
-ON b.EventYear = e.EventYear)
 
 
 -- Query #2
@@ -145,4 +147,21 @@ FROM Booking
 Where Payment > (Select AVG(Payment)
                 FROM Booking);
 
+
+
+DROP VIEW Task5;
+
+CREATE VIEW Task5 AS
+Select c.GivenName, c.Surname, t.TourName, t.Description, e.EventYear, e.EventMonth, e.EventDay, e.EventFee, b.DateBooked, b.Payment
+FROM (((Event e
+INNER JOIN Tour t
+ON e.TourName = t.TourName)
+INNER JOIN Booking b
+ON e.EventYear = b.EventYear
+AND e.EventMonth = b.EventMonth
+AND e.EventDay = b.EventDay)
+INNER JOIN Client c
+ON b.ClientID = c.ClientID)
+
+SELECT * FROM Task5;
 
