@@ -115,7 +115,34 @@ Select * From Client;
 
 
 
-SELECT table_catalog [database], table_schema [schema], table_name name, table_type type
-FROM INFORMATION_SCHEMA.TABLES
-GO
+-- SELECT table_catalog [database], table_schema [schema], table_name name, table_type type
+-- FROM INFORMATION_SCHEMA.TABLES
+-- GO
+
+
+
+
+-- Query #1
+Select c.GivenName, c.Surname, b.TourName, t.Description, b.EventYear, b.EventMonth, b.EventDay, e.EventFee, b.DateBooked, b.Payment
+FROM (((Booking b
+INNER JOIN Client c
+ON b.ClientID = c.ClientID)
+INNER JOIN Tour t
+ON b.TourName = t.TourName)
+INNER JOIN Event e
+ON b.EventYear = e.EventYear)
+
+
+-- Query #2
+Select EventMonth, TourName, Count(ClientID) as "Num Bookings"
+From Booking
+GROUP BY EventMonth, TourName;
+
+
+-- Query #3
+Select *
+FROM Booking
+Where Payment > (Select AVG(Payment)
+                FROM Booking);
+
 
