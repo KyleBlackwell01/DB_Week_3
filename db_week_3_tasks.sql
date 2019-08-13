@@ -165,3 +165,21 @@ ON b.ClientID = c.ClientID)
 
 SELECT * FROM Task5;
 
+
+
+Select Count(ClientID) as "Client ID"
+From Booking;
+
+-- By counting the amount of rows for client ID from query 1 we get the exact amount of values for test data.
+
+
+Select Count(DateBooked) as "Num Booking"
+From Booking;
+
+-- By counting the amount of rows for Num Booking from query 2 we get the exact amount of values for test data.
+
+
+Select Avg(Payment)
+From Booking;
+
+-- By calculating the average total of payments for bookings we can get the correct value that is greater than the average calculated.
