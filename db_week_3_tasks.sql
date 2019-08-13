@@ -25,42 +25,60 @@ DROP TABLE IF EXISTS dbo.Tour;
 
 CREATE TABLE Tour 
 (
-    TourName VARCHAR(5) PRIMARY KEY,
-    Description VARCHAR(100)
-)
+    TourName VARCHAR(100) PRIMARY KEY,
+    Description VARCHAR(500)
+);
 
 CREATE TABLE Client
 (
     ClientID INT PRIMARY KEY,
-    Surname VARCHAR(50),
-    GivenName VARCHAR(50),
-    Gender VARCHAR(2)
-)
+    Surname VARCHAR(100) NOT NULL,
+    GivenName VARCHAR(100) NOT NULL,
+    Gender VARCHAR(1) NULL, 
+    CONSTRAINT Check_Gender
+    CHECK (Gender IN ('M', 'F', 'I'))
+);
 
 CREATE TABLE Event
 (
     EventYear INT,
     EventMonth VARCHAR(3),
     EventDay INT,
-    EventFee INT,
-    TourName VARCHAR(5),
+    EventFee MONEY NOT NULL,
+    TourName VARCHAR(100),
     PRIMARY KEY (EventYear,EventMonth,EventDay,TourName),
-    FOREIGN KEY (TourName) REFERENCES Tour
-)
+    FOREIGN KEY (TourName) REFERENCES Tour,
+    CONSTRAINT Check_Month
+    CHECK (EventMonth IN ('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec')),
+    CONSTRAINT Check_Money
+    CHECK (EventFee > 0),
+    CONSTRAINT Check_Day
+    CHECK (EventDay >= 1 AND EventDay <= 31),
+    CONSTRAINT Check_Year
+    CHECK (LEN(EventYear) =4)
+);
 
 CREATE TABLE Booking
 (
-    DateBooked Date,
-    Payment INT,
+    DateBooked Date NOT NULL,
+    Payment MONEY NULL,
     EventYear INT,
     EventMonth VARCHAR(3),
     EventDay INT,
-    TourName VARCHAR(5),
+    TourName VARCHAR(100),
     ClientID INT,
     PRIMARY KEY(EventYear,EventMonth,EventDay,TourName,ClientID),
     FOREIGN KEY (EventYear,EventMonth,EventDay,TourName) REFERENCES Event,
-    FOREIGN KEY (ClientID) REFERENCES Client
-)
+    FOREIGN KEY (ClientID) REFERENCES Client,
+    CONSTRAINT Check_MonthB
+    CHECK (EventMonth IN ('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec')),
+    CONSTRAINT Check_DayB
+    CHECK (EventDay >= 1 AND EventDay <= 31),
+    CONSTRAINT Check_YearB
+    CHECK (LEN(EventYear) = 4),
+    CONSTRAINT Check_Payment
+    CHECK (Payment > 0)
+);
 
 
 
@@ -93,4 +111,11 @@ INSERT INTO Booking (ClientID,TourName,EventMonth,EventDay,EventYear,Payment,Dat
 
 
 
-SELECT * From Client;
+Select * From Client;
+
+
+
+SELECT table_catalog [database], table_schema [schema], table_name name, table_type type
+FROM INFORMATION_SCHEMA.TABLES
+GO
+
